@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Inscription</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/myStyle.css" />
+</head>
+<body ng-app="myApp" ng-controller="listEtudiantController">
+	
+	<div class="col-md-6 col-sm-6 spacer">
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>ID</th><th>Nom</th><th>Prénom</th><th>Date Naissance</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="e in pageEtudiants.content">
+				<td>{{e.idEtudiant}}</td>
+				<td>{{e.nom}}</td>
+				<td>{{e.prenom}}</td>
+				<td>{{e.dateNaissance|date:'dd/MM/yyyy'}}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	
+	
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/myApp.js"></script>
+</body>
+</html>

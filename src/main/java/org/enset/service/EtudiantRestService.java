@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.enset.dao.EtudiantRepository;
 import org.enset.entities.Etudiant;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +30,16 @@ public class EtudiantRestService {
 	private EtudiantRepository etudiantRepository;
 	
 	@Secured(value={"ROLE_ADMIN", "ROLE_SCOLARITE"})
-	@RequestMapping(value="/saveEtudiant", method=RequestMethod.GET)
-	public Etudiant saveEtudiant(Etudiant e){
+	@RequestMapping(value="/etudiants", method=RequestMethod.POST)
+	public Object saveEtudiant(@RequestBody @Valid Etudiant e, BindingResult bindingResult){
+		if(bindingResult.hasErrors()){
+			Map<String, Object> errors = new HashMap<>();
+			errors.put("errors", true);
+			for(FieldError fe:bindingResult.getFieldErrors()){
+				errors.put(fe.getField(), fe.getDefaultMessage());
+			}
+			return errors;
+		}
 		return etudiantRepository.save(e);
 	}
 	
